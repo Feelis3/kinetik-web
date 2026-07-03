@@ -2,24 +2,17 @@
 
 **🔗 Live:** https://kinetik-beryl.vercel.app/
 
-![Hero](docs/01_hero.png)
+Experiencia web premium de una sola página para **KINETIK**, una marca ficticia de calzado de rendimiento. Homepage de scroll largo con hero 3D, navegación fullscreen, transiciones cinematográficas y una secuencia de secciones de producto animadas por scroll.
 
-A premium, dark-futuristic single-page experience for a fictional performance-footwear
-brand (**KINETIK**), built as an Awwwards-style showcase. Long-scroll homepage with a
-3D scroll hero, a fullscreen navigation, cinematic page transitions and a sequence of
-scroll-driven product sections.
-
-> Fictional brand. Built **on top of the local Awwwards Pack effects** — each effect was
-> inspected and ported to React rather than recreated from scratch.
+![Demo](docs/kinetik_demo.gif)
 
 ## Stack
 
 - **Next.js 15** (App Router) · **React 19** · **TypeScript**
-- **Tailwind CSS** — mono / stealth system (`#0B0B0C` ink, `#F5F5F5` cloud, pure
-  white as the only accent; sale red `#FF3B30` is the single semantic colour)
+- **Tailwind CSS** — sistema mono/stealth (tinta `#0B0B0C`, nube `#F5F5F5`, blanco puro como único acento; el rojo rebaja `#FF3B30` es el único color semántico)
 - **GSAP + ScrollTrigger** · **Lenis** smooth scroll · **Three.js** (WebGL)
 
-## Run
+## Ejecutar
 
 ```bash
 npm install
@@ -27,40 +20,45 @@ npm run dev      # http://localhost:3000
 npm run build && npm start
 ```
 
-## Effect → Component mapping
+## Secciones y efectos
 
-Every section reuses the implementation from `assets/Awwwards Pack`, ported into a React
-client component (original Three.js / GSAP logic preserved inside `useEffect` with cleanup).
+Cada sección es un componente React cliente con su lógica Three.js / GSAP encapsulada en `useEffect` con limpieza completa.
 
-| Awwwards Pack source | Component | Section |
-|---|---|---|
-| `+22 3D Animation / 21` (+ scanner idea from `/19`) | `components/sections/Hero.tsx` | Pinned 3D scroll hero — sneaker GLB rotates, circular-mask reveal, feature tooltips |
-| `+10 Background Animations / 8` | `components/visual/DitherBackground.tsx` | Global WebGL dithered-wave backdrop (pointer-reactive) |
-| `+21 Navigation Menus / 6` | `components/sections/Navigation.tsx` | Fullscreen menu — page rotates away, clip-path sweep, hover image preview |
-| `+17 Page Transitions / 5` | `components/providers/PageTransition.tsx` | Cover-panel intro reveal + wipe between in-page destinations |
-| `+10 Grid Animations / 4` | `components/sections/Collections.tsx` | Horizontal pinned collection showcase with image parallax |
-| `+10 Grid Animations / 8` | `components/sections/Featured.tsx` | Hover-reveal product-name list with directional clip-path wipes |
-| `+10 Grid Animations / 6` | `components/providers/Cart.tsx` | Fly-to-bag add-to-cart micro animation |
-| `+10 Grid Animations / 7` | `components/sections/Categories.tsx` | Layout-formation-on-scroll (tiles fly up into a grid) |
-| `+10 Grid Animations / 5` | image set used across editorial sections | Repeating-image editorial source imagery |
-| `+22 3D Animation / 5` (HoloCardMaterial) | `components/sections/Showcase.tsx` | Holographic mouse-tilt product card |
-| `+22 3D Animation / 16` ("Living Words") | `components/sections/Showcase.tsx` | Scrub-lit kinetic statement |
-| `+11 SVG Animations / 4` (scroll-reactive motion) | `components/sections/Marquee.tsx` | Velocity-aware marquee separators |
+| Componente | Efecto |
+|---|---|
+| `sections/Hero.tsx` | Hero 3D con pin de scroll — la zapatilla (GLB) rota al hacer scroll, revelado con máscara circular y tooltips de características |
+| `visual/DitherBackground.tsx` | Fondo global WebGL de ondas con dithering, reactivo al puntero |
+| `sections/Navigation.tsx` | Menú fullscreen — la página rota al abrirse, barrido con clip-path e imagen de preview al hacer hover en cada link |
+| `providers/PageTransition.tsx` | Panel de cobertura en la intro + wipe entre destinos de la misma página |
+| `sections/Collections.tsx` | Escaparate horizontal con pin y parallax de imágenes |
+| `sections/Featured.tsx` | Lista de productos con hover-reveal — wipes direccionales de clip-path sobre la imagen |
+| `providers/Cart.tsx` | Micro-animación fly-to-bag al añadir al carrito |
+| `sections/Categories.tsx` | Formación de layout al hacer scroll — las piezas vuelan hasta componer la cuadrícula |
+| `sections/Showcase.tsx` | Tarjeta de producto holográfica que se inclina con el ratón + texto cinético iluminado por scroll |
+| `sections/Marquee.tsx` | Separadores marquee sensibles a la velocidad del scroll |
 
-Design discipline (typographic scale, pill geometry, product-card layout, 8px spacing,
-sale price signalling) follows the provided `design.md`, re-skinned to the dark system.
+## Capturas
+
+| | |
+|---|---|
+| ![Hero](docs/01_hero.png) | ![Colecciones](docs/03_scroll_25.png) |
+| ![Lo nuevo](docs/04_scroll_40.png) | ![Categorías](docs/05_scroll_55.png) |
+| ![Showcase](docs/06_scroll_70.png) | ![Editorial](docs/07_scroll_85.png) |
+
+![Cierre](docs/08_scroll_98.png)
 
 ## Assets
 
-- `public/models/sneaker.glb` — CC0 sneaker model (Khronos / Shopify *MaterialsVariantsShoe*).
-- `public/img/sneakers/*` — sneaker product photography (Unsplash).
-- `public/img/editorial/*` — editorial campaign imagery (from the Awwwards Pack).
-- The raw `assets/` folder (zip + extracted sources) is git-ignored.
+- `public/models/sneaker.glb` — modelo de zapatilla CC0 (Khronos / Shopify *MaterialsVariantsShoe*).
+- `public/img/sneakers/*` — fotografía de producto (Unsplash).
+- `public/img/editorial/*` — imágenes editoriales de campaña.
 
-## Performance notes
+## Notas de rendimiento
 
-- All WebGL (hero + dither background) is `dynamic(..., { ssr:false })` and lazy.
-- One shared Lenis + GSAP ticker; ScrollTrigger pins use `refreshPriority` so the three
-  pinned sections (hero, collections, categories) recompute in document order.
-- `prefers-reduced-motion` disables smooth scroll, background animation and shortens the
-  hero pin.
+- Todo el WebGL (hero + fondo dither) se carga con `dynamic(..., { ssr:false })` y de forma perezosa.
+- Un único ticker compartido de Lenis + GSAP; los pins de ScrollTrigger usan `refreshPriority` para que las tres secciones con pin (hero, colecciones, categorías) se recalculen en orden de documento.
+- `prefers-reduced-motion` desactiva el smooth scroll y la animación de fondo, y acorta el pin del hero.
+
+## Autor
+
+**Marcos Pérez Esteban**
