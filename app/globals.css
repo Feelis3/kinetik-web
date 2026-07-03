@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0a0a0b;
+  --cloud: #f5f5f5;
+  --acid: #ffffff;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  background-color: var(--ink);
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--cloud);
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv01";
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--acid);
+  color: var(--ink);
+}
+
+/* thin scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0b;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2e;
+}
+
+@layer components {
+  .display-stroke {
+    -webkit-text-stroke: 1px rgba(245, 245, 245, 0.35);
+    color: transparent;
+  }
+
+  .pill {
+    @apply inline-flex items-center justify-center rounded-full font-sans font-medium transition-colors;
+  }
+  .pill-primary {
+    @apply pill bg-acid text-ink px-8 py-3.5 text-sm uppercase tracking-wide;
+  }
+  .pill-primary:hover {
+    @apply bg-cloud;
+  }
+  .pill-ghost {
+    @apply pill border border-line text-cloud px-8 py-3.5 text-sm uppercase tracking-wide;
+  }
+  .pill-ghost:hover {
+    @apply border-acid text-acid;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.25em] text-cloud-dim;
+  }
+
+  .container-x {
+    @apply mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12;
+  }
+}
+
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Hide the native cursor once the custom one is running (desktop only). */
+@media (hover: hover) and (pointer: fine) {
+  html.kx-has-cursor,
+  html.kx-has-cursor * {
+    cursor: none !important;
+  }
+}
